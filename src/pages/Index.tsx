@@ -6,6 +6,7 @@ import { sampleQuizData } from "@/data/quizData";
 import QuizHeader from "@/components/QuizHeader";
 import QuestionCard from "@/components/QuestionCard";
 import { Trophy, Star, BookOpen, Clock } from "lucide-react";
+import AudioController, { useAudio, playSound } from "@/components/AudioController";
 
 const Index = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -13,12 +14,16 @@ const Index = () => {
   const [quizComplete, setQuizComplete] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState<string | null>(null);
   const [quizStarted, setQuizStarted] = useState(false);
+  const { audioEnabled, toggleAudio } = useAudio();
 
   const currentQuestion = selectedQuiz 
     ? sampleQuizData.questions[currentQuestionIndex]
     : null;
 
   const handleQuizSelect = (quizId: string) => {
+    // Play click sound
+    playSound("click");
+    
     setSelectedQuiz(quizId);
     setCurrentQuestionIndex(0);
     setScore(0);
@@ -45,6 +50,9 @@ const Index = () => {
   };
   
   const resetQuiz = () => {
+    // Play click sound
+    playSound("click");
+    
     setSelectedQuiz(null);
     setCurrentQuestionIndex(0);
     setScore(0);
@@ -56,6 +64,9 @@ const Index = () => {
   if (!selectedQuiz) {
     return (
       <div className="min-h-screen relative overflow-hidden py-8 px-4">
+        {/* Audio Controller */}
+        <AudioController audioEnabled={audioEnabled} toggleAudio={toggleAudio} />
+        
         {/* Animated background elements */}
         <div className="absolute inset-0 -z-10 overflow-hidden">
           <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-gradient-to-r from-purple-300 to-pink-300 opacity-50 animate-pulse-slow"></div>
@@ -156,6 +167,9 @@ const Index = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden py-8 px-4">
+      {/* Audio Controller */}
+      <AudioController audioEnabled={audioEnabled} toggleAudio={toggleAudio} />
+      
       {/* Animated background elements */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-gradient-to-r from-purple-300 to-pink-300 opacity-50 animate-pulse-slow"></div>

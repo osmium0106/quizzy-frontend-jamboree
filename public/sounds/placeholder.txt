@@ -1,0 +1,11 @@
+
+This is a placeholder file. Replace with actual sound files:
+
+1. background-music.mp3
+2. click.mp3
+3. correct.mp3
+4. wrong.mp3
+5. countdown.mp3
+6. time-up.mp3
+
+For the best experience, upload these sound files to the public/sounds directory.

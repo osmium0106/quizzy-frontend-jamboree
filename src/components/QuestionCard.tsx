@@ -6,6 +6,7 @@ import Timer from "./Timer";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "./ui/button";
 import { Play, Clock } from "lucide-react";
+import { playSound } from "./AudioController";
 
 interface QuestionCardProps {
   question: QuizQuestion;
@@ -42,6 +43,9 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
     
     const isCorrect = index === question.correctAnswer;
     
+    // Play sound
+    playSound(isCorrect ? "correct" : "wrong");
+    
     setTimeout(() => {
       onAnswerSelected(isCorrect);
       
@@ -58,6 +62,9 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   const handleTimeUp = () => {
     setIsAnswered(true);
     
+    // Play time up sound
+    playSound("timeUp");
+    
     toast({
       title: "Time's up!",
       description: `The correct answer was: ${question.options[question.correctAnswer]}`,
@@ -69,10 +76,13 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   };
 
   const handleQuizStart = () => {
+    // Play click sound
+    playSound("click");
+    
     // Start countdown from 3
     setCountdown(3);
     
-    // Countdown logic
+    // Countdown logic with sound
     const countdownInterval = setInterval(() => {
       setCountdown(prev => {
         if (prev === null || prev <= 1) {
@@ -81,6 +91,9 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           setIsTimerActive(true);
           return null;
         }
+        
+        // Play countdown sound on each number
+        playSound("countdown");
         return prev - 1;
       });
     }, 1000);
