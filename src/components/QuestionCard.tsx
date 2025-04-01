@@ -27,6 +27,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
   const [isTimerActive, setIsTimerActive] = useState(false);
+  const [countdown, setCountdown] = useState<number | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -68,8 +69,21 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   };
 
   const handleQuizStart = () => {
-    onQuizStart();
-    setIsTimerActive(true);
+    // Start countdown from 3
+    setCountdown(3);
+    
+    // Countdown logic
+    const countdownInterval = setInterval(() => {
+      setCountdown(prev => {
+        if (prev === null || prev <= 1) {
+          clearInterval(countdownInterval);
+          onQuizStart();
+          setIsTimerActive(true);
+          return null;
+        }
+        return prev - 1;
+      });
+    }, 1000);
   };
 
   // Reset component state when question changes
@@ -101,6 +115,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           <Button 
             onClick={handleQuizStart} 
             className="bg-white text-quiz-primary hover:bg-quiz-light flex items-center gap-2"
+            disabled={countdown !== null}
           >
             <Play size={18} />
             Start Quiz
@@ -115,44 +130,56 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       </div>
       
       <div className="p-6">
-        <h3 className="text-xl md:text-2xl font-bold mb-6 text-quiz-dark">
-          {question.question}
-        </h3>
-        
-        {question.image && (
-          <div className="my-4">
-            <img 
-              src={question.image} 
-              alt="Question" 
-              className="max-w-full h-auto rounded-lg mx-auto" 
-            />
+        {countdown !== null ? (
+          <div className="flex flex-col items-center justify-center h-60">
+            <div className="text-8xl font-bold bg-gradient-to-r from-quiz-primary to-purple-500 text-transparent bg-clip-text animate-bounce">
+              {countdown}
+            </div>
+            <p className="text-xl mt-4 text-quiz-dark">Get Ready!</p>
           </div>
-        )}
-        
-        <div className="mt-6">
-          {question.options.map((option, index) => (
-            <AnswerOption
-              key={index}
-              option={option}
-              index={index}
-              selectedAnswer={selectedAnswer}
-              correctAnswer={question.correctAnswer}
-              isAnswered={isAnswered}
-              onSelect={handleAnswerSelect}
-              disabled={!quizStarted}
-            />
-          ))}
-        </div>
-        
-        {renderSubmitButton()}
-
-        {!quizStarted && (
-          <div className="mt-6 p-4 bg-quiz-light rounded-lg text-center">
-            <p className="text-quiz-primary font-bold flex items-center justify-center gap-2">
-              <Clock size={18} />
-              Click "Start Quiz" to begin!
+        ) : !quizStarted ? (
+          <div className="flex flex-col items-center justify-center py-16">
+            <div className="w-24 h-24 bg-quiz-light rounded-full flex items-center justify-center mb-4">
+              <Play size={40} className="text-quiz-primary ml-2" />
+            </div>
+            <h3 className="text-2xl font-bold text-quiz-dark mb-2">Ready to Start?</h3>
+            <p className="text-center text-gray-500 max-w-md">
+              Click the "Start Quiz" button when you're ready to begin. You'll have {question.timeLimit} seconds to answer each question.
             </p>
           </div>
+        ) : (
+          <>
+            <h3 className="text-xl md:text-2xl font-bold mb-6 text-quiz-dark">
+              {question.question}
+            </h3>
+            
+            {question.image && (
+              <div className="my-4">
+                <img 
+                  src={question.image} 
+                  alt="Question" 
+                  className="max-w-full h-auto rounded-lg mx-auto" 
+                />
+              </div>
+            )}
+            
+            <div className="mt-6">
+              {question.options.map((option, index) => (
+                <AnswerOption
+                  key={index}
+                  option={option}
+                  index={index}
+                  selectedAnswer={selectedAnswer}
+                  correctAnswer={question.correctAnswer}
+                  isAnswered={isAnswered}
+                  onSelect={handleAnswerSelect}
+                  disabled={!quizStarted}
+                />
+              ))}
+            </div>
+            
+            {renderSubmitButton()}
+          </>
         )}
       </div>
     </div>

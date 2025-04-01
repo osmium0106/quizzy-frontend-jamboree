@@ -1,11 +1,11 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { sampleQuizData } from "@/data/quizData";
 import QuizHeader from "@/components/QuizHeader";
 import QuestionCard from "@/components/QuestionCard";
-import { Trophy, Star, BookOpen } from "lucide-react";
+import { Trophy, Star, BookOpen, Clock } from "lucide-react";
 
 const Index = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -105,6 +105,10 @@ const Index = () => {
                   <span className="px-3 py-1 bg-quiz-light rounded-full">10 Questions</span>
                   <span className="px-3 py-1 bg-quiz-light rounded-full">Easy</span>
                 </div>
+                <div className="mt-3 flex items-center gap-2 text-sm font-medium text-quiz-primary">
+                  <Clock size={16} />
+                  <span>Quiz Time: 10 minutes</span>
+                </div>
               </CardContent>
               <CardFooter>
                 <Button 
@@ -129,6 +133,10 @@ const Index = () => {
                 <div className="flex items-center gap-2 text-sm font-medium text-quiz-dark">
                   <span className="px-3 py-1 bg-blue-100 rounded-full">8 Questions</span>
                   <span className="px-3 py-1 bg-blue-100 rounded-full">Medium</span>
+                </div>
+                <div className="mt-3 flex items-center gap-2 text-sm font-medium text-blue-500">
+                  <Clock size={16} />
+                  <span>Quiz Time: 8 minutes</span>
                 </div>
               </CardContent>
               <CardFooter>
