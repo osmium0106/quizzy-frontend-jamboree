@@ -50,9 +50,8 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       variant: "destructive",
     });
     
-    setTimeout(() => {
-      onTimeUp();
-    }, 1500);
+    // Immediately end the quiz when time is up
+    onTimeUp();
   };
 
   // Reset component state when question changes

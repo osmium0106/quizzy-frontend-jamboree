@@ -49,7 +49,7 @@ const Timer: React.FC<TimerProps> = ({ initialTime, onTimeUp, isActive }) => {
 
   return (
     <div className="flex items-center gap-2">
-      <Clock size={20} className="text-quiz-primary" />
+      <Clock size={20} className="text-white" />
       <div className="relative w-20 h-5 bg-gray-200 rounded-full overflow-hidden">
         <div
           className={`absolute top-0 left-0 h-full ${getTimerColor()} transition-all duration-1000 ease-linear`}
