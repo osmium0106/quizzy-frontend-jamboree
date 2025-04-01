@@ -11,7 +11,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ currentQuestion, totalQuestio
 
   return (
     <div className="w-full">
-      <div className="flex justify-between mb-1 text-sm">
+      <div className="flex justify-between mb-2 text-sm">
         <span className="font-bold text-white bg-quiz-primary px-3 py-1 rounded-full">
           Question {currentQuestion} of {totalQuestions}
         </span>
@@ -19,23 +19,25 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ currentQuestion, totalQuestio
           {Math.round(progress)}% Complete
         </span>
       </div>
-      <div className="w-full h-4 bg-white rounded-full shadow-inner">
+      <div className="w-full h-6 bg-white rounded-full shadow-inner">
         <div
-          className="h-4 bg-gradient-to-r from-quiz-primary to-purple-500 rounded-full transition-all duration-300 ease-in-out relative"
+          className="h-6 bg-gradient-to-r from-quiz-primary to-purple-500 rounded-full transition-all duration-300 ease-in-out relative"
           style={{ width: `${progress}%` }}
         >
-          {/* Add animated dots for fun */}
+          {/* Add animated dots and characters for fun - grade 5 friendly */}
           {[...Array(5)].map((_, i) => (
             <div 
               key={i}
-              className="absolute w-3 h-3 rounded-full bg-white top-0.5"
+              className="absolute w-6 h-6 rounded-full bg-white top-0 flex items-center justify-center text-xs font-bold text-quiz-primary"
               style={{ 
-                left: `${i * 25}%`, 
-                opacity: progress > i * 25 ? 1 : 0,
-                transform: progress > i * 25 ? 'scale(1)' : 'scale(0)',
+                left: `${i * 20}%`, 
+                opacity: progress > i * 20 ? 1 : 0,
+                transform: progress > i * 20 ? 'scale(1)' : 'scale(0)',
                 transition: 'all 0.3s ease-in-out'
               }}
-            ></div>
+            >
+              {i + 1}
+            </div>
           ))}
         </div>
       </div>

@@ -9,6 +9,7 @@ interface AnswerOptionProps {
   correctAnswer: number;
   isAnswered: boolean;
   onSelect: (index: number) => void;
+  disabled?: boolean;
 }
 
 const AnswerOption: React.FC<AnswerOptionProps> = ({
@@ -18,6 +19,7 @@ const AnswerOption: React.FC<AnswerOptionProps> = ({
   correctAnswer,
   isAnswered,
   onSelect,
+  disabled = false,
 }) => {
   const optionLabels = ["A", "B", "C", "D"];
   const isSelected = selectedAnswer === index;
@@ -26,6 +28,7 @@ const AnswerOption: React.FC<AnswerOptionProps> = ({
   let bgColor = "bg-white hover:bg-quiz-light";
   let borderColor = "border-gray-200";
   let textColor = "text-quiz-dark";
+  let cursorClass = disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer";
 
   if (isAnswered) {
     if (isSelected) {
@@ -47,9 +50,9 @@ const AnswerOption: React.FC<AnswerOptionProps> = ({
 
   return (
     <button
-      onClick={() => !isAnswered && onSelect(index)}
-      disabled={isAnswered}
-      className={`w-full p-4 mb-3 flex items-center border-2 rounded-xl ${bgColor} ${borderColor} ${textColor} transition-all duration-200 transform hover:scale-[1.01]`}
+      onClick={() => !isAnswered && !disabled && onSelect(index)}
+      disabled={isAnswered || disabled}
+      className={`w-full p-4 mb-3 flex items-center border-2 rounded-xl ${bgColor} ${borderColor} ${textColor} ${cursorClass} transition-all duration-200 transform hover:scale-[1.01]`}
     >
       <div className="flex items-center justify-center w-8 h-8 mr-3 rounded-full bg-quiz-light text-quiz-primary font-bold">
         {optionLabels[index]}
